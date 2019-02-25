@@ -18,19 +18,23 @@
   </head>
   <body>
     <div id="app-container"></div>
-    <script src="js/ajax.js"></script>
-    <script>
-      // You can also require other files to run in this process
-      require("./renderer.js");
-
-      ajax.get(
-        "componentes/interfaz.html",
-        {},
-        function(a) {
-          document.querySelector("#app-container").innerHTML = a;
-        },
-        true
-      );
-    </script>
   </body>
+
+  <script src="js/ajax.js"></script>
+  <script>
+    // You can also require other files to run in this process
+    require("./renderer.js");
+    const storage = require("electron-storage");
+
+    ajax.get(
+      "componentes/interfaz.html",
+      {},
+      function(a) {
+        document.querySelector("#app-container").innerHTML = a;
+      },
+      true
+    );
+  </script>
+
+  <script src="js/motor.js"></script>
 </html>
