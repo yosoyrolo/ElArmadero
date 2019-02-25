@@ -9,11 +9,14 @@ let motor = {};
 */
 
 motor.datos = {
-  objetos: {},
-  recursos: {},
-  escenas: {},
-  datosActualesScript: "",
-  direccionProyecto: ""
+  metadata: {},
+  project: { nombre: "Nuevo juego" },
+  scene: {
+    metadata: { mode: "2D" },
+    objetos: {},
+    materials: {}
+  },
+  scripts: {}
 };
 
 /*
@@ -131,4 +134,12 @@ motor.export = function(content) {
       });
     });
   });
+};
+
+motor.showEditor = function(on) {
+  if (on) {
+    document.querySelector("#container").classList.remove("hide");
+  } else {
+    document.querySelector("#container").classList.add("hide");
+  }
 };
