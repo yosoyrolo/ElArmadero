@@ -2,14 +2,35 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>La Mejor Calidad !Papa!</title>
+    <title>El armadero</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        height: 100%;
+      }
+
+      #app-container {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
   </head>
   <body>
-    <h1>proyectos software</h1>
-
+    <div id="app-container"></div>
+    <script src="js/ajax.js"></script>
     <script>
       // You can also require other files to run in this process
       require("./renderer.js");
+
+      ajax.get(
+        "componentes/interfaz.html",
+        {},
+        function(a) {
+          document.querySelector("#app-container").innerHTML = a;
+        },
+        true
+      );
     </script>
   </body>
 </html>
