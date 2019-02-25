@@ -21,5 +21,3 @@ motor.open = function(url) {
     }
   });
 };
-
-console.log(storage);

@@ -24,9 +24,6 @@
   <script>
     // You can also require other files to run in this process
     require("./renderer.js");
-    var remote = require("remote"); // Load remote compnent that contains the dialog dependency
-    var dialog = remote.require("dialog"); // Load the dialogs component of the OS
-    var fs = require("fs"); // Load the File System to execute our common tasks (CRUD)
 
     ajax.get(
       "componentes/interfaz.html",
