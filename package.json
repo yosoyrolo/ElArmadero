@@ -19,5 +19,9 @@
   "devDependencies": {
     "electron": "^4.0.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "dialog": "^0.3.1",
+    "fs": "0.0.1-security",
+    "remote": "^0.2.6"
+  }
 }

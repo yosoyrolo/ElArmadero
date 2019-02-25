@@ -1,5 +1,80 @@
-.BG {
-  background-color: red;
+#panel {
+  background-color: black;
   width: 100%;
   height: 100%;
+  display: grid;
+  grid-template-rows: auto 20%;
+}
+
+#pantalla {
+  background-color: aliceblue;
+  width: 100%;
+  height: 100;
+  display: grid;
+  grid-template-columns: auto 30%;
+}
+#uno {
+  background-color: beige;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 5% auto;
+}
+#dos {
+  background-color: #434343;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  padding: 30px;
+  grid-template-rows: auto 15% auto;
+
+  box-sizing: border-box;
+}
+
+#objetos {
+  background-color: #000000;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 32px auto;
+}
+#play {
+  background-color: #434343;
+  height: 100%;
+  width: 100%;
+}
+#room {
+  background-color: aliceblue;
+  height: 100%;
+  width: 100%;
+}
+#caja1 {
+  background-color: #000000;
+  height: 100%;
+  width: 100%;
+}
+#caja2 {
+  background-color: #000000;
+  height: 100%;
+  width: 100%;
+}
+
+#texto1 {
+  background-color: #434343;
+  height: 100%;
+  width: 100%;
+}
+h1 {
+  text-align: left;
+  color: aliceblue;
+}
+#semi {
+  background-color: #000000;
+  height: 100%;
+  width: 100%;
+}
+#grande {
+  background-color: #434343;
+  height: 100%;
+  width: 100%;
 }
