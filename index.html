@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>El armadero</title>
+
     <style>
       body,
       html {
@@ -24,9 +25,12 @@
   <script>
     // You can also require other files to run in this process
     require("./renderer.js");
+    var app = require("electron").remote;
+    var dialog = app.dialog;
 
+    const fs = require("fs"); // Load the File System to execute our common tasks (CRUD)
     ajax.get(
-      "componentes/interfaz.html",
+      "componentes/textEditor.html",
       {},
       function(a) {
         document.querySelector("#app-container").innerHTML = a;
@@ -34,6 +38,12 @@
       true
     );
   </script>
+  <script src="js/Ace/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script
+    src="componentes/textEditor.js"
+    type="text/javascript"
+    charset="utf-8"
+  ></script>
 
   <script src="js/motor.js"></script>
 </html>
