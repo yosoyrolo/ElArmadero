@@ -1,0 +1,22 @@
+{
+  "name": "ElArmadero",
+  "version": "1.0.0",
+  "description": "Programa para crear juegos en HTML5",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/yosoyrolo/ElArmadero",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "Esteban Devia & Alejandro Manrique",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^4.0.4"
+  }
+}
