@@ -1,3 +1,7 @@
 .hide {
   visibility: hidden;
 }
+* {
+  color: #dbdbcd;
+  font-family: Arial, Helvetica, sans-serif;
+}
