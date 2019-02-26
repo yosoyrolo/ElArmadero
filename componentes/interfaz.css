@@ -57,7 +57,7 @@
   box-sizing: border-box;
   border-width: 1px;
   display: grid;
-  grid-template-columns: 50px 50px 50px 50px 50px 50px 50px;
+  grid-template-columns: auto auto auto auto auto auto auto;
 }
 #room {
   background-color: white;
@@ -127,4 +127,18 @@ h1 {
   background-color: #000000;
   height: 100%;
   width: 100%;
+}
+
+.top_boton {
+  position: relative;
+  text-align: left;
+}
+
+.top_boton img {
+  height: 24px;
+  width: auto;
+  position: absolute;
+  transform: translate(8px, -50%);
+  top: 50%;
+  left: 0%;
 }
