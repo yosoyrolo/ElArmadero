@@ -42,7 +42,7 @@
   width: 100%;
   display: grid;
   grid-template-rows: 32px auto;
-
+  position: relative;
   border-top: solid;
   border-color: #94958f;
   box-sizing: border-box;
@@ -88,8 +88,9 @@ h1 {
   font-size: 12pt;
 }
 #semi {
+  position: relative;
   background-color: #272823;
-  height: 100%;
+  height: 32px;
   width: 100%;
   display: grid;
   grid-template-columns: 96px 96px 96px auto;
@@ -97,6 +98,10 @@ h1 {
   border-color: #94958f;
   box-sizing: border-box;
   border-width: 1px;
+}
+
+#semi div {
+  line-height: 32px;
 }
 #grande {
   background-color: #5b5b55;
@@ -135,7 +140,7 @@ h1 {
 }
 
 .top_boton img {
-  height: 24px;
+  height: 16px;
   width: auto;
   position: absolute;
   transform: translate(8px, -50%);
