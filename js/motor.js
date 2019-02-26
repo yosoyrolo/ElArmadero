@@ -143,3 +143,17 @@ motor.showEditor = function(on) {
     document.querySelector("#container").classList.add("hide");
   }
 };
+
+/*
+
+
+
+---------------------------------------------------------------------------------------------------------------------- Play
+
+
+
+*/
+
+motor.play = function() {
+  alert("Play");
+};
