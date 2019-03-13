@@ -1,7 +1,13 @@
-.hide {
-  visibility: hidden;
+.closed {
+  height: 0 !important;
 }
-* {
-  color: #dbdbcd;
-  font-family: Arial, Helvetica, sans-serif;
+
+.lista-animada {
+  height: auto;
+  overflow: hidden;
+  background-color: #dcdfe1;
+}
+
+.hidden {
+  visibility: hidden !important;
 }

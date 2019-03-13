@@ -8,15 +8,122 @@ let motor = {};
 
 */
 
-motor.datos = {
-  metadata: {},
-  project: { nombre: "Nuevo juego" },
-  scene: {
-    metadata: { mode: "2D" },
-    objetos: {},
-    materials: {}
-  },
-  scripts: {}
+motor.url = "";
+motor.titulo = "";
+motor.objects = [];
+motor.rooms = [];
+motor.sprites = [];
+
+/*
+
+---------------------------------------------------------------------------------------------------------------------- New
+
+
+*/
+
+motor.new = function() {
+  // Si se cancela la operacion
+
+  dialog.showSaveDialog(fileName => {
+    if (fileName === undefined) {
+      console.log("You didn't save the file");
+      return;
+    }
+
+    // Se crean los directorios para los archivos del juego
+
+    fs.mkdir(fileName, false, function() {
+      fs.mkdir(fileName + "/assets", false, function() {
+        // Despues de crear la carpeta Objetos
+      });
+      fs.mkdir(fileName + "/event", false, function() {
+        // Despues de crear la carpeta recursos
+        fs.copyFile(
+          __dirname + "/template/event/draw.js",
+          fileName + "/event/draw.js",
+          err => {
+            if (err) throw err;
+            console.log("source.txt was copied to destination.txt");
+          }
+        );
+      });
+      fs.mkdir(fileName + "/objects", false, function() {
+        // Despues de crear la carpeta escenas
+      });
+      fs.mkdir(fileName + "/rooms", false, function() {
+        // Despues de crear la carpeta escenas
+      });
+      fs.mkdir(fileName + "/sprites", false, function() {
+        // Despues de crear la carpeta escenas
+      });
+      fs.mkdir(fileName + "/js", false, function() {
+        // Despues de crear la carpeta js
+        fs.copyFile(
+          __dirname + "/template/js/three.min.js",
+          fileName + "/js/three.min.js",
+          err => {
+            if (err) throw err;
+            console.log("source.txt was copied to destination.txt");
+          }
+        );
+        fs.copyFile(
+          __dirname + "/template/js/pixi.js",
+          fileName + "/js/pixi.js",
+          err => {
+            if (err) throw err;
+            console.log("source.txt was copied to destination.txt");
+          }
+        );
+        fs.copyFile(
+          __dirname + "/template/js/motor.js",
+          fileName + "/js/motor.js",
+          err => {
+            if (err) throw err;
+            console.log("source.txt was copied to destination.txt");
+          }
+        );
+
+        fs.writeFile(fileName + "/index.html", fileSource.export(), err => {
+          if (err) {
+            swal("An error ocurred creating the file ", "err.message", "error");
+          }
+
+          swal("Exitoso", "Se pudo crear el propyecto exitosamente", "success");
+        });
+
+        motor.titulo = "";
+        motor.objects = [];
+        motor.rooms = [];
+        motor.sprites = [];
+
+        fs.writeFile(
+          fileName + "/abrir.esto",
+          JSON.stringify({
+            objects: motor.objects,
+            rooms: motor.rooms,
+            sprites: motor.sprites
+          }),
+          err => {
+            if (err) {
+              swal(
+                "An error ocurred creating the file ",
+                "err.message",
+                "error"
+              );
+            }
+
+            clearObjectList();
+
+            swal(
+              "Exitoso",
+              "Se pudo crear el propyecto exitosamente",
+              "success"
+            );
+          }
+        );
+      });
+    });
+  });
 };
 
 /*
@@ -28,24 +135,30 @@ motor.datos = {
 
 */
 
-motor.save = function(content) {
-  var contentString = JSON.stringify(content);
-  // Abre la ventana de seleccion de ruta
-  dialog.showSaveDialog(fileName => {
-    if (fileName === undefined) {
-      console.log("You didn't save the file");
-      return;
-    }
+motor.save = function() {
+  // Se crean los directorios para los archivos del juego
 
-    // Guarda el archivo en formato .jgo con el contenido JSON  que queramos
-    fs.writeFile(fileName + ".jgo", contentString, err => {
+  fs.writeFile(
+    motor.url + "/abrir.esto",
+    JSON.stringify({
+      objects: motor.objects,
+      rooms: motor.rooms,
+      sprites: motor.sprites
+    }),
+    err => {
       if (err) {
-        alert("An error ocurred creating the file " + err.message);
+        swal("An error ocurred creating the file ", "err.message", "error");
       }
 
-      alert("The file has been succesfully saved");
-    });
-  });
+      fs.writeFile(motor.url + "/index.html", fileSource.export(), err => {
+        if (err) {
+          swal("No se pudo guardar el proyecto ", err.message, "error");
+        }
+
+        swal("Exitoso", "Se pudo guardar el propyecto exitosamente", "success");
+      });
+    }
+  );
 };
 
 /*
@@ -68,14 +181,51 @@ motor.open = function() {
 
     var FileData = fs.readFile(fileNames[0], "utf-8", (err, data) => {
       if (err) {
-        alert("An error ocurred reading the file :" + err.message);
+        swal("An error ocurred reading the file :", err.message, "error");
         return;
       }
 
-      // Aqui es el lugar en donde se puede usar la informacion del JSON
-      motor.datos.direccionProyecto = fileNames[0];
-      editor.setValue(data);
       console.log(JSON.parse(data));
+
+      var fileMotor = JSON.parse(data);
+
+      motor.objects = fileMotor.objects;
+      motor.sprites = fileMotor.sprites;
+      motor.rooms = fileMotor.rooms;
+
+      console.log(motor, "🌅");
+      clearObjectList();
+      clearRoomList();
+
+      //Llenar lista de objetos
+      for (let i = 0; i < motor.objects.length; i++) {
+        addObjectToList(motor.objects[i].nombre);
+      }
+
+      //Llenar lista de objetos
+      for (let i = 0; i < motor.rooms.length; i++) {
+        addRoomToList(motor.rooms[i].nombre);
+      }
+
+      //Este codigo sirve para sacar el URL del archivo y ver si es 'abrir.esto'
+
+      var arrayCarpetas = fileNames[0].split("/");
+      var url = "";
+      for (let index = 0; index < arrayCarpetas.length - 1; index++) {
+        url += arrayCarpetas[index] + "/";
+      }
+
+      if (fileNames[0].split(".")[1] == "esto") {
+        motor.url = url;
+        swal("Se pudo abrir el proyecto", motor.url, "success");
+      } else {
+        swal(
+          "No se pudo abrir el archivo por que no es 'abrir.esto'",
+          motor.url,
+          "error"
+        );
+      }
+      //-----------------------------------------------------------------------
     });
   });
 };
@@ -90,58 +240,8 @@ motor.open = function() {
 
 */
 
-motor.export = function(content) {
-  // Si se cancela la operacion
-
-  dialog.showSaveDialog(fileName => {
-    if (fileName === undefined) {
-      console.log("You didn't save the file");
-      return;
-    }
-
-    // Se crean los directorios para los archivos del juego
-
-    fs.mkdir(fileName, false, function() {
-      // Despues de crear la carpeta principal
-      fs.copyFile(
-        __dirname + "/PBase/index.html",
-        fileName + "/index.html",
-        err => {
-          if (err) throw err;
-          console.log("source.txt was copied to destination.txt");
-        }
-      );
-
-      fs.mkdir(fileName + "/objetos", false, function() {
-        // Despues de crear la carpeta Objetos
-      });
-      fs.mkdir(fileName + "/recursos", false, function() {
-        // Despues de crear la carpeta recursos
-      });
-      fs.mkdir(fileName + "/escenas", false, function() {
-        // Despues de crear la carpeta escenas
-      });
-      fs.mkdir(fileName + "/js", false, function() {
-        // Despues de crear la carpeta js
-        fs.copyFile(
-          __dirname + "/js/three.min.js",
-          fileName + "/js/three.min.js",
-          err => {
-            if (err) throw err;
-            console.log("source.txt was copied to destination.txt");
-          }
-        );
-      });
-    });
-  });
-};
-
-motor.showEditor = function(on) {
-  if (on) {
-    document.querySelector("#container").classList.remove("hide");
-  } else {
-    document.querySelector("#container").classList.add("hide");
-  }
+motor.export = function() {
+  swal("Exportar");
 };
 
 /*
@@ -155,5 +255,5 @@ motor.showEditor = function(on) {
 */
 
 motor.play = function() {
-  alert("Play");
+  window.open(this.url + "index.html", "_blank", "nodeIntegration=no");
 };
