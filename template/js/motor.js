@@ -20,7 +20,6 @@ this.app = new PIXI.Application(window.innerWidth, window.innerHeight, {
   //transparent       : true,
   //resolution		  : 1,
   antialias: false,
-  legacy: true,
   clearBeforeRender: true,
   autoResize: true,
   powerPreference: "high-performance"
@@ -35,19 +34,14 @@ function deg2rad(_degrees) {
 var mouseX = 0;
 var mouseY = 0;
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+var camera = new THREE.PerspectiveCamera(75, 1280 / 720, 0.1, 1000);
 
 // setup THREE WebGL renderer
 var renderer = new THREE.WebGLRenderer({
   antialias: true
 });
 renderer.setClearColor(0x000000, 0);
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(1280, 720);
 
 /**
  * For the combi to work with only one <canvas> element,
@@ -65,12 +59,18 @@ var time = new THREE.Clock();
  *
  * 'renderer.domElement' is the what would normally be added by THREE as/in a <canvas> to the DOM
  */
+
+THREE.ImageUtils.crossOrigin = "";
+
 var THREE_TEXTURE = PIXI.BaseTexture.from(
   renderer.domElement,
   PIXI.SCALE_MODES.LINEAR
 );
 var THREE_SPRITE = new PIXI.Sprite.from(new PIXI.Texture(THREE_TEXTURE));
+THREE_SPRITE.anchor.set(0, 0.5);
+resizeThreeSprite();
 this.app.stage.addChild(THREE_SPRITE);
+//THREE_SPRITE.transform.scale.set(vw_inicial / 1280, vh_inicial / 720);
 
 // Adding just some PIXI sprite based on the same image the Tunnel is based on:
 // (animating it later on a little)
@@ -83,6 +83,9 @@ this.app.stage.addChild(THREE_SPRITE);
 
 var motor = [];
 
+var vw_inicial = window.innerWidth;
+var vh_inicial = window.innerHeight;
+
 function crearObjeto(obj) {
   var newObj = new obj();
 
@@ -90,7 +93,35 @@ function crearObjeto(obj) {
   return newObj;
 }
 
+// Then some mouse and resize events
+// These will remain to work, because PIXI renders and captures every move THREE makes
+
+document.addEventListener("mousemove", onDocumentMouseMove, false);
+window.addEventListener("resize", onWindowResize, false);
+
+function onWindowResize() {
+  var vw = window.innerWidth;
+  var vh = window.innerHeight;
+  resizeThreeSprite();
+
+  // Resizing for PIXI
+  this.app.renderer.resize(vw, vh);
+}
+
+function onDocumentMouseMove(event) {
+  mouseX = event.clientX - window.innerWidth / 2;
+  mouseY = event.clientY - window.innerHeight / 2;
+}
+
+// That's it!!!
+
 var tiempo = 0;
+
+function resizeThreeSprite() {
+  var vw = window.innerWidth;
+  THREE_SPRITE.transform.scale.set(vw / 1280, vw / 1280);
+  THREE_SPRITE.transform.position.y = window.innerHeight / 2;
+}
 
 var render = function() {
   // First THREE
@@ -115,28 +146,3 @@ var render = function() {
 };
 
 render(); // init the render (requestAnimationFrame) function
-
-// Then some mouse and resize events
-// These will remain to work, because PIXI renders and captures every move THREE makes
-
-document.addEventListener("mousemove", onDocumentMouseMove, false);
-window.addEventListener("resize", onWindowResize, false);
-
-function onWindowResize() {
-  var vw = window.innerWidth;
-  var vh = window.innerHeight;
-
-  camera.aspect = vw / vh;
-  camera.updateProjectionMatrix();
-  renderer.setSize(vw, vh);
-
-  // Resizing for PIXI
-  this.app.renderer.resize(vw, vh);
-}
-
-function onDocumentMouseMove(event) {
-  mouseX = event.clientX - window.innerWidth / 2;
-  mouseY = event.clientY - window.innerHeight / 2;
-}
-
-// That's it!!!

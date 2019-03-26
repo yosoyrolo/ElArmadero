@@ -59,6 +59,14 @@ motor.new = function() {
       fs.mkdir(fileName + "/js", false, function() {
         // Despues de crear la carpeta js
         fs.copyFile(
+          __dirname + "/template/js/GLTFLoader.js",
+          fileName + "/js/GLTFLoader.js",
+          err => {
+            if (err) throw err;
+            console.log("source.txt was copied to destination.txt");
+          }
+        );
+        fs.copyFile(
           __dirname + "/template/js/three.min.js",
           fileName + "/js/three.min.js",
           err => {

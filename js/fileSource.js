@@ -30,10 +30,13 @@ fileSource.head = `
   body {
     margin: 0;
     height: 100%;
+    overflow: hidden;
   }
 </style>
 <script src="js/pixi.js"></script>
 <script src="js/three.min.js"></script>
+<script src="js/GLTFLoader.js"></script>
+<script src="js/howler.min.js"></script>
 <title>{titulo}</title>
 </head>
 <body></body>
